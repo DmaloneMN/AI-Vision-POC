@@ -153,3 +153,9 @@ variable "client_ip_address" {
   type        = string
   default     = "73.62.223.21"
 }
+
+variable "query_editor_ip_address" {
+  description = "IP address allowed to use the Azure Portal query editor for SQL"
+  type        = string
+  default     = "24.206.84.228"
+}

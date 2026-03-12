@@ -67,8 +67,8 @@ resource "azurerm_mssql_firewall_rule" "client_ip" {
 resource "azurerm_mssql_firewall_rule" "query_editor" {
   name             = "QueryEditor"
   server_id        = azurerm_mssql_server.main.id
-  start_ip_address = "24.206.84.228"
-  end_ip_address   = "24.206.84.228"
+  start_ip_address = var.query_editor_ip_address
+  end_ip_address   = var.query_editor_ip_address
 }
 
 resource "azurerm_mssql_server_security_alert_policy" "main" {

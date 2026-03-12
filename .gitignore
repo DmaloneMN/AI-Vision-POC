@@ -1,0 +1,63 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+terraform.tfvars
+*.tfplan
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+crash.log
+
+# Azure Functions / Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.venv/
+venv/
+env/
+.env
+.python_packages/
+.python_version
+local.settings.json
+bin/
+obj/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Node (if any tooling)
+node_modules/
+
+# Secrets & credentials – never commit these
+*.pem
+*.key
+*.pfx
+*.p12
+*.cer
+*.crt
+serviceAccountKey.json
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+.eggs/
