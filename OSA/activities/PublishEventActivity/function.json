@@ -1,0 +1,17 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "payload",
+      "type": "activityTrigger",
+      "direction": "in"
+    },
+    {
+      "name": "outputEvent",
+      "type": "eventHub",
+      "direction": "out",
+      "eventHubName": "event-hub-osa",
+      "connection": "EVENT_HUB_CONN"
+    }
+  ]
+}

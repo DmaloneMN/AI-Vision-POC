@@ -1,0 +1,20 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "<your-storage-connection-string>",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "EVENT_HUB_CONN": "<your-eventhub-connection-string>",
+    "AI_VISION_ENDPOINT": "https://<your-region>.api.cognitive.microsoft.com/",
+    "AI_VISION_KEY": "<your-ai-vision-key>",
+    "CUSTOM_VISION_ENDPOINT": "https://<your-custom-vision-endpoint>/",
+    "CUSTOM_VISION_KEY": "<your-custom-vision-key>",
+    "CUSTOM_VISION_PROJECT_ID": "<your-project-id>",
+    "CUSTOM_VISION_ITERATION": "<your-iteration-name>",
+    "SQL_SERVER": "<your-sql-server>.database.windows.net",
+    "SQL_DATABASE": "db-osa-poc",
+    "SQL_USERNAME": "sqladmin",
+    "SQL_PASSWORD": "<your-sql-password>",
+    "STORAGE_ACCOUNT_NAME": "<your-storage-account-name>",
+    "STORAGE_ACCOUNT_KEY": "<your-storage-account-key>"
+  }
+}
