@@ -8,7 +8,6 @@ Example: store-001/shelf-A1/20240312T153000_image.jpg
 """
 
 import logging
-import json
 import os
 from datetime import datetime, timezone
 

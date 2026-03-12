@@ -12,9 +12,6 @@ Returns a dict with:
 
 import logging
 import os
-from typing import Any
-
-import azure.functions as func
 
 logger = logging.getLogger(__name__)
 

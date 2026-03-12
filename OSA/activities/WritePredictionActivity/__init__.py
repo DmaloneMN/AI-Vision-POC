@@ -7,9 +7,7 @@ Persists prediction results to Azure SQL:
 
 import logging
 import os
-import struct
 from datetime import datetime, timezone
-from typing import Any
 
 import pyodbc
 
