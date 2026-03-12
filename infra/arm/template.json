@@ -13,6 +13,10 @@
     },
     "sqlAdminPassword": {
       "type": "securestring"
+    },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "[subscription().tenantId]"
     }
   },
   "variables": {
@@ -129,7 +133,7 @@
       "location": "canadacentral",
       "properties": {
         "sku": { "family": "A", "name": "standard" },
-        "tenantId": "b1b5c504-6f69-4e15-9c40-ddea95f2b70b",
+        "tenantId": "[parameters('tenantId')]",
         "enableRbacAuthorization": true,
         "softDeleteRetentionInDays": 90
       }
@@ -141,7 +145,7 @@
       "location": "eastus",
       "properties": {
         "sku": { "family": "A", "name": "standard" },
-        "tenantId": "b1b5c504-6f69-4e15-9c40-ddea95f2b70b",
+        "tenantId": "[parameters('tenantId')]",
         "enableRbacAuthorization": true,
         "softDeleteRetentionInDays": 90
       }

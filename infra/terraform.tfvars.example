@@ -1,8 +1,8 @@
 # Copy this file to terraform.tfvars and fill in the values
 # DO NOT commit terraform.tfvars to source control
 
-subscription_id     = "32cac44c-6e25-4b5c-8bb7-d8782197489b"
-tenant_id           = "b1b5c504-6f69-4e15-9c40-ddea95f2b70b"
+subscription_id     = "<your-subscription-id>"
+tenant_id           = "<your-tenant-id>"
 resource_group_name = "rg-osa-poc"
 
 # Sensitive variables - replace with actual values
@@ -15,4 +15,4 @@ sql_admin_password                              = "<your-strong-sql-password>"
 # sql_admin_login              = "sqladmin"
 # sql_ad_admin_login           = "sqladmin-aad"
 # sql_ad_admin_object_id       = "<azure-ad-object-id>"
-# client_ip_address            = "73.62.223.21"
+# client_ip_address            = "<your-client-ip-address>"
