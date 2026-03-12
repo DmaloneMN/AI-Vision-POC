@@ -1,0 +1,12 @@
+azure-functions
+azure-functions-durable
+azure-eventhub
+azure-storage-blob
+azure-identity
+azure-keyvault-secrets
+azure-cognitiveservices-vision-customvision
+msrest
+pyodbc
+requests
+Pillow
+numpy
