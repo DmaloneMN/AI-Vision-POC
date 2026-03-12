@@ -1,0 +1,237 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "iotHubConnectionString": {
+      "type": "securestring"
+    },
+    "iotHubContainerName": {
+      "type": "securestring"
+    },
+    "vulnerabilityAssessmentStorageContainerPath": {
+      "type": "securestring"
+    },
+    "sqlAdminPassword": {
+      "type": "securestring"
+    }
+  },
+  "variables": {
+    "cognitiveAccountName": "ai-vision-osa-poc",
+    "iotHubName": "iot-osa-poc",
+    "eventhubNamespaceName": "osa-poc-ev",
+    "eventhubName": "event-hub-osa",
+    "storageAccountName": "rgosapocbb40",
+    "sqlServerName": "sql-osa-poc",
+    "sqlDatabaseName": "db-osa-poc",
+    "functionAppName": "func-osa-poc",
+    "servicePlanName": "asp-osa-poc",
+    "logicAppName": "la-osa-poc",
+    "managedIdentityName": "mi-osa-poc",
+    "keyVaultNameCanadaCentral": "kv-osa-poc",
+    "keyVaultNameEastUS": "kv-osa-poc-11189",
+    "appInsightsName": "func-osa-poc",
+    "appInsightsNameSecondary": "func-osa-poc202603021855"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "apiVersion": "2023-05-01",
+      "name": "[variables('cognitiveAccountName')]",
+      "location": "eastus",
+      "sku": { "name": "S0" },
+      "kind": "CognitiveServices",
+      "properties": {
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.Devices/IotHubs",
+      "apiVersion": "2021-07-02",
+      "name": "[variables('iotHubName')]",
+      "location": "eastus",
+      "sku": { "name": "F1", "capacity": 1 },
+      "properties": {
+        "minTlsVersion": "1.2"
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces",
+      "apiVersion": "2022-01-01-preview",
+      "name": "[variables('eventhubNamespaceName')]",
+      "location": "canadacentral",
+      "sku": { "name": "Standard", "tier": "Standard", "capacity": 1 },
+      "properties": {
+        "zoneRedundant": true,
+        "isAutoInflateEnabled": false,
+        "kafkaEnabled": true
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/eventhubs",
+      "apiVersion": "2022-01-01-preview",
+      "name": "[concat(variables('eventhubNamespaceName'), '/', variables('eventhubName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventHub/namespaces', variables('eventhubNamespaceName'))]"
+      ],
+      "properties": {
+        "partitionCount": 2,
+        "messageRetentionInDays": 1
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2022-09-01",
+      "name": "[variables('storageAccountName')]",
+      "location": "centralus",
+      "sku": { "name": "Standard_LRS" },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers",
+      "apiVersion": "2022-05-01-preview",
+      "name": "[variables('sqlServerName')]",
+      "location": "westus2",
+      "properties": {
+        "administratorLogin": "sqladmin",
+        "administratorLoginPassword": "[parameters('sqlAdminPassword')]",
+        "version": "12.0",
+        "minimalTlsVersion": "1.2"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases",
+      "apiVersion": "2022-05-01-preview",
+      "name": "[concat(variables('sqlServerName'), '/', variables('sqlDatabaseName'))]",
+      "location": "westus2",
+      "sku": { "name": "GP_S_Gen5", "tier": "GeneralPurpose", "family": "Gen5", "capacity": 2 },
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]"
+      ],
+      "properties": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "maxSizeBytes": 34359738368,
+        "autoPauseDelay": 60
+      }
+    },
+    {
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+      "apiVersion": "2023-01-31",
+      "name": "[variables('managedIdentityName')]",
+      "location": "eastus2"
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2022-07-01",
+      "name": "[variables('keyVaultNameCanadaCentral')]",
+      "location": "canadacentral",
+      "properties": {
+        "sku": { "family": "A", "name": "standard" },
+        "tenantId": "b1b5c504-6f69-4e15-9c40-ddea95f2b70b",
+        "enableRbacAuthorization": true,
+        "softDeleteRetentionInDays": 90
+      }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2022-07-01",
+      "name": "[variables('keyVaultNameEastUS')]",
+      "location": "eastus",
+      "properties": {
+        "sku": { "family": "A", "name": "standard" },
+        "tenantId": "b1b5c504-6f69-4e15-9c40-ddea95f2b70b",
+        "enableRbacAuthorization": true,
+        "softDeleteRetentionInDays": 90
+      }
+    },
+    {
+      "type": "Microsoft.Insights/components",
+      "apiVersion": "2020-02-02",
+      "name": "[variables('appInsightsName')]",
+      "location": "centralus",
+      "kind": "web",
+      "properties": {
+        "Application_Type": "web"
+      }
+    },
+    {
+      "type": "Microsoft.Insights/components",
+      "apiVersion": "2020-02-02",
+      "name": "[variables('appInsightsNameSecondary')]",
+      "location": "canadacentral",
+      "kind": "web",
+      "properties": {
+        "Application_Type": "web"
+      }
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2022-09-01",
+      "name": "[variables('servicePlanName')]",
+      "location": "canadacentral",
+      "sku": { "name": "Y1", "tier": "Dynamic" },
+      "kind": "linux",
+      "properties": {
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2022-09-01",
+      "name": "[variables('functionAppName')]",
+      "location": "canadacentral",
+      "kind": "functionapp,linux",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ],
+      "identity": { "type": "SystemAssigned" },
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+        "siteConfig": {
+          "linuxFxVersion": "Python|3.10",
+          "appSettings": [
+            { "name": "FUNCTIONS_WORKER_RUNTIME", "value": "python" },
+            { "name": "FUNCTIONS_EXTENSION_VERSION", "value": "~4" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2019-05-01",
+      "name": "[variables('logicAppName')]",
+      "location": "northcentralus",
+      "identity": { "type": "SystemAssigned" },
+      "properties": {
+        "state": "Disabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "triggers": {
+            "Recurrence": {
+              "recurrence": {
+                "frequency": "Minute",
+                "interval": 2
+              },
+              "type": "Recurrence"
+            }
+          },
+          "actions": {}
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "functionAppHostname": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Web/sites', variables('functionAppName'))).defaultHostName]"
+    },
+    "sqlServerFqdn": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Sql/servers', variables('sqlServerName'))).fullyQualifiedDomainName]"
+    }
+  }
+}

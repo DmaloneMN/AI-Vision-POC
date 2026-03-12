@@ -1,0 +1,18 @@
+# Copy this file to terraform.tfvars and fill in the values
+# DO NOT commit terraform.tfvars to source control
+
+subscription_id     = "32cac44c-6e25-4b5c-8bb7-d8782197489b"
+tenant_id           = "b1b5c504-6f69-4e15-9c40-ddea95f2b70b"
+resource_group_name = "rg-osa-poc"
+
+# Sensitive variables - replace with actual values
+iot_hub_connection_string                       = "<your-iot-hub-connection-string>"
+iot_hub_container_name                          = "<your-iot-hub-container-name>"
+vulnerability_assessment_storage_container_path = "https://<storage-account>.blob.core.windows.net/<container>/"
+sql_admin_password                              = "<your-strong-sql-password>"
+
+# Optional overrides (defaults match ARM template)
+# sql_admin_login              = "sqladmin"
+# sql_ad_admin_login           = "sqladmin-aad"
+# sql_ad_admin_object_id       = "<azure-ad-object-id>"
+# client_ip_address            = "73.62.223.21"
